@@ -1,0 +1,21 @@
+FROM busybox AS base
+
+ENV MESSAGE1 "Hello, World!"
+ENV MSG_FILE "message.txt"
+ENV SHHH_SECRET "This is a secret!"
+ENV SHHH_FILE "secret.txt"
+
+RUN sleep 5
+RUN dd if=/dev/zero of=/tmp/bigfile bs=1024 count=1000
+RUN echo "${MESSAGE1}" >${MSG_FILE}
+RUN echo "${SHHH_SECRET}" >${SHHH_FILE}
+RUN rm ${SHHH_FILE}
+ARG MESSAGE2="Goodbye, World!"
+ENV MESSAGE2 ${MESSAGE2}
+RUN echo "${MESSAGE2}" >>${MSG_FILE}
+RUN rm -f /tmp/bigfile
+
+
+FROM busybox AS final
+
+COPY --from=base /message.txt /message.txt

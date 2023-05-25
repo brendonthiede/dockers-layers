@@ -1,0 +1,14 @@
+FROM busybox
+
+ENV MESSAGE1 "Hello, World!"
+ENV MESSAGE2 "Goodbye, World!"
+ENV MSG_FILE "message.txt"
+ENV SHHH_SECRET "This is a secret!"
+ENV SHHH_FILE "secret.txt"
+
+RUN dd if=/dev/zero of=/tmp/bigfile bs=1024 count=1000 && \
+    echo "${MESSAGE1}" >${MSG_FILE} && \
+    echo "${SHHH_SECRET}" >${SHHH_FILE} && \
+    rm ${SHHH_FILE} && \
+    echo "${MESSAGE2}" >>${MSG_FILE} && \
+    rm -f /tmp/bigfile
