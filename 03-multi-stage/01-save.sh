@@ -19,7 +19,7 @@ jq . ./manifest.json
 
 CONFIG_FILE=$(jq -r '.[0].Config' ./manifest.json)
 printf "\n[INFO] Contents of '%s'\n\n" "${CONFIG_FILE}"
-read -p "(continue)" -n 1 -r
+read -p "(press space to continue)" -n 1 -r
 
 jq . "${CONFIG_FILE}" -C | less -R
 
